@@ -1,7 +1,6 @@
 ---
 # Feel free to add content and custom Front Matter to this file.
 # To modify the layout, see https://jekyllrb.com/docs/themes/#overriding-theme-defaults
-
 layout: home
 show_title: false
 title: Home
@@ -19,7 +18,12 @@ are sub-topics.
 Each page has a commit history, which you can view using the 'Changelog' 
 link at the bottom of each page.
 
-This playbook is open source! The source is available on [Github](https://github.com/joshmcarthur/playbook). The site is built using [Jekyll](http://jekyllrb.com/). [Gatsby.js](https://www.gatsbyjs.org/) was also considered for this, but I preferred Jekyll's ability to put content front-and-center, at the expense of a built-in webpack plugin.
+This playbook is open source! The source is available on [Github]({{site.repo}}). The site is built using [Jekyll](http://jekyllrb.com/). [Gatsby.js](https://www.gatsbyjs.org/) was also considered for this, but I preferred Jekyll's ability to put content front-and-center, at the expense of a built-in webpack plugin.
+
+This site uses <a href="https://github.com/pmarsceill/just-the-docs">Just the Docs</a>, a documentation theme for Jekyll.
+
+The theme has been [customised]({{site.repo}}/blob/master/_sass/custom/custom.scss), and some components have [minor overrides]({{site.repo}}/blob/master/_sass/_overrides.scss).
+The default layout has also been [modified]({{site.repo}}/blob/master/_layouts/default.html) to include the page title and content license, changelog, and issue links.
 
 The site is hosted on [Github Pages](https://pages.github.com/) and served via [Cloudflare](https://cloudflare.com/).
 
