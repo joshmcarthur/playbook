@@ -1,11 +1,10 @@
 ////
 //// Typography
 ////
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,900;1,500&display=swap');
 
 $body-font-family: 'Roboto', sans-serif;
 //$mono-font-family: "SFMono-Regular", Menlo, Consolas, Monospace;
-//$root-font-size: 16px;         // Base font-size for rems
+$root-font-size: 16px;         // Base font-size for rems
 //$body-line-height: 1.4;
 //$content-line-height: 1.5;
 //$body-heading-line-height: 1.15;
@@ -19,6 +18,8 @@ $background: #051B30;
 $accent: #DAD8CC;
 $foreground: #DF9F57;
 
+$yellow-000: $foreground;
+$grey-dk-100: #333;
 
 // $body-background-color: $accent;
 $sidebar-color: $background;
@@ -26,16 +27,14 @@ $sidebar-color: $background;
 //$table-background-color: $white;
 //$code-background-color: $grey-lt-000;
 
-//$body-text-color: $grey-dk-100;
+$body-text-color: $grey-dk-100;
 $body-heading-color: $background;
 //$search-result-preview-color: $grey-dk-000;
-//$nav-child-link-color: $grey-dk-100;
+$nav-child-link-color: $white;
 $link-color: $foreground;
 $btn-primary-color: $foreground;
 //$base-button-color: #f7f7f7;
 
-
-$yellow-000: $foreground;
 
 ////
 //// Spacing
@@ -100,15 +99,3 @@ $yellow-000: $foreground;
 //xl: 1400px
 //);
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: $body-font-family;
-  font-weight: 900 !important;
-}
-
-.site-header {
-  border-bottom: none !important;
-  .site-title {
-    color: $white;
-    font-weight: 900;
-  }
-}

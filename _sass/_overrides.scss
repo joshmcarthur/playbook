@@ -1,0 +1,27 @@
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: $body-font-family;
+  font-weight: 900;
+}
+
+.site-header {
+  border-bottom: none;
+}
+
+
+.side-bar {
+  .navigation {
+    @include mq(md) {
+      padding-top: 0;
+    }
+
+    .navigation-list-link {
+      @include fs-5;
+      &.active {
+        font-weight: 900;
+        color: $white;
+        @extend .py-4;
+      }
+    }
+  }
+}
