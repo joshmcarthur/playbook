@@ -57,8 +57,24 @@ It's a real balancing act. All I can really do here I think is give some example
 
 ### No surprises
 
+Producing unsurprising code leads to maintainability. Whether I'm working with myself, or with others, I aim to produce code that the reader is _expecting to see_. That means favouring boring code and trying to use existing patterns that are already established within the application, rather than trying to reinvent the wheel. Doing this forces whoever is reading my code to try and reverse-engineer the behaviour I intended.
+
 ### Understand libraries and frameworks
 
-### Background processing from the start
+Creating web applications often involves working at a level of abstraction when typically I'll be working with frameworks and libraries rather than lower-level building blocks. One of the most important parts of my personal development has been to explore the frameworks and libraries I use. By making the effort to try and understand these, I have learned different coding styles, patterns, and approaches to problem solving that I can see being used in a context that I understand. 
+
+Reading the source code of libraries and frameworks also allows me to gain a deeper understanding of their capabilities. Sometimes this means finding a new API or method that I would not have otherwise found out about, or occasionally just understanding from code comments, tests and structure the strengths and weaknesses of the approach the library is following. 
+
+Exploring open source is a never-ending journey for me. While I started off just understanding the syntax of what was written, as I gain more experience I am able to recognise patterns, contrast to other libraries and frameworks, and feel confident in my decision to use or borrow from a library or framework.
 
 ### Test early & often
+
+When I first started development, testing felt like something that provided little benefit, and took away from feature development. Having now been developing for several years, I couldn't do without testing. It provides a mechanism for me to consume my own code and APIs, and reflect on what I'm doing - quite apart from the main benefit of actually checking that the code I write does what it's supposed to.
+
+I have experimented with BDD and TDD, but these partcular processes don't work well for me. I prefer to write a 'draft' of my code, and then use the tests to drive refactoring and reflection to get the draft to a state that is ready for peer review.
+
+Usually, I will try and get tests in as early as I can, and then use these to help me to develop the rest of my solution. Incorprating tests into an automated continuous tool is also something I do as early as possible. Having CI tell me when I have broken a test is much more motivating for me that remembering to run the tests properly myself!
+
+*[BDD]: Behaviour-driven development
+*[CI]: Continuous integration (automatically running checks when the source code is changed)
+*[TDD]: Test-driven development
