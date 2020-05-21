@@ -1,8 +1,64 @@
 ---
 layout: default
 title: Backend Dev
+has_children: true
 nav_order: 20
 ---
 
-Coming soon
-{: .label .label-yellow }
+[Choose Boring Technology](http://boringtechnology.club/). I like to get things done, and produce consistent and maintainable code. I also like new languages, frameworks and libraries. I try them out, and compare them to what I know really well. This approach means that I iterate my development approach and skill over time, but always coming from a background of something I know well.
+
+For anything I build, I try and find automated checks to help me stick to 
+best practises and community guidelines, including:
+
+* Format checks
+* Complexity and code style checks
+* Unit tests
+* Integration tests
+* Package/library auditing
+* Security scanning
+
+I have found that languages that have this kind of developer tooling available are usually sufficiently advanced to justify some experimentation.
+
+Most of my pratical experience is in [Ruby on Rails](/backend/rails.html), and I use this experience as a baseline to assess other tools. Learning to work deeply with this framework has allowed to to develop a good sense of patterns and techniques which I find work consistently for me across all types of languages and frameworks.
+
+### Single Responsibility Principle
+
+I try not to start with this, but instead refactor and iterate towards it. It's more of a guiding principle for me - "how can I reduce the number of "things" this class/function/module does?". 
+
+SRP is well-known, so I won't rehash it, but it's essentially endeavouring to make sure that each module of code has a single responsibility. How this plays out really depends on the language, but what it tends to result in for me is that I end up with smaller pieces of code that are more spread out, but also easier to read and maintain. 
+
+SRP also forces me to think about the next point - dependency injection - if I have all these small, do-one-thing pieces of code, how do I control a code path that I need them to follow by talking to one another?
+
+### Pass in function dependencies, don't inline them
+
+Some languages make this easier than others, I think, but Ruby has covered 
+a bunch of ways I have found useful that I think apply across languages, including passing them as optional args, extracting the dependency to a method that can then be mocked or stubbed, or proxying the dependency through an adapter that can be externall configured (e.g. such as talking to different databases through ActiveRecord).
+
+I have found that the combination of learning more about both SRP and dependency injection has made me more confident about the code I produce being flexible, maintainable and easy to understand by others. An overhead is certainly introduced by taking this view on feature development (vs. just chucking it all down into a single file), but over time I have found that my habits have changed, so creating APIs and file structures inspired by SRP and DI principles have become something that I just do. 
+
+### Don't reinvent the wheel
+
+This is a all a balancing act, but I have certainly been spoiled in this regard by the rich ecosystem that is [rubygems](http://rubygems.org/). Because of the specific time when Rails was becoming popular, there is a comprehensive set of libraries available that can do just about anything. 
+
+I used to think that this was a real strength of a language that had these kind of "do it for you" libraries available, but as I have had to experience maintaining applications that have taken the approach of using such libraries, I've had to revise my thinking.
+
+The unfortunate side effect of adding all of these third-party libraries is that _someone_ still has to maintain that library code. It is hopefully not you, but it might be if the library maintainer(s) take a break. Or, the entire library might be declared as being unmaintained or abandoned, and there's then the difficult decision on whether to try and replace whatever it's doing in the application with something else.
+
+So, I've had to adjust how I approach libraries a little. Generally now, I spend a lot more time investigating and auditing libraries. It's surprising to me how many of them are just wrapping a single class or method, along with some configuration which would not be necessary if I dropped that class directly in my application and configured it the way I needed it!
+
+At the same time, there's another end of the spectrum here of refusing to add any dependencies at all. This is certainly seen in more languages than others, I think. Node.js has always had a very strong culture of installing packages until all the functions required can just be imported. Python sits at the other end of the spectrum for me, which dependencies there usually being abstractions over HTTP, database communication or something like exception reporting, rather than something that adds features to your application. Ruby sits right in the middle for me - there are a large number of libraries available, but I'll only add a dependency if the [library looks healthy](#understand-libraries-and-frameworks), and it delivers some concrete API or feature that would take me a long time to build and/or get right. 
+
+It's a real balancing act. All I can really do here I think is give some examples of libraries I commonly use:
+
+1. [`requests`](https://requests.readthedocs.io/en/master/) - because _everyone_ in Python world seems to use this, and it makes HTTP requests so, so easy. 
+2. [`pundit`](https://github.com/varvet/pundit) - a simple authorisation framework for Ruby. I use this because it lays out a very sensible API for being able to bake authorisation checks into all parts of the application - but the library code is clear, easy to read and well-maintained. I feel safer using this library than others because it is so simple that I don't see it breaking easily due to external dependency changes.
+3.  [`ecto`](https://hexdocs.pm/ecto/Ecto.html) - all I can really do is compare it to Ruby's ActiveRecord, and say that it strikes a very nice balance between not abstracting from the database engine too much, while still enabling database access via a clean API. 
+4. [`devise`](https://github.com/heartcombo/devise) - authentication in itself isn't too bad - find a `bcrypt` library and go for it. The problem that many people advocating for not using a library for auth seem to gloss over is that it's not just about verifying a password - it's also password resets, account locking, registration, email sending AND logging in. Devise adds all this functionality, which makes it incredibly easy to get started with an application and move onto the actual problems. The downside to this library is how much feature functionality it keeps inside the library - I wish that it could generate the feature code into the application and then be removed as a dependency.
+
+### No surprises
+
+### Understand libraries and frameworks
+
+### Background processing from the start
+
+### Test early & often
