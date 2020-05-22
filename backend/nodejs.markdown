@@ -5,8 +5,8 @@ parent: Backend Dev
 nav_order: 30
 ---
 
-Coming soon
-{: .label .label-yellow }
+Work in progress
+{: .label .label-blue }
 
 * Async/await makes Node easier to reason with
 * Don't disregard tools that solve Node.js problems - e.g. Next.js

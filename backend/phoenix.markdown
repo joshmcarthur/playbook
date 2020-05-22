@@ -5,8 +5,8 @@ parent: Backend Dev
 nav_order: 20
 ---
 
-Coming soon
-{: .label .label-yellow }
+Work in progress
+{: .label .label-blue }
 
 * Lint with credo
 * Format with mix

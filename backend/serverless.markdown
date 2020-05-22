@@ -5,8 +5,8 @@ parent: Backend Dev
 nav_order: 50
 ---
 
-Coming soon
-{: .label .label-yellow }
+Work in progress
+{: .label .label-blue }
 
 * Be able to run locally
 * JS runs everywhere
