@@ -7,3 +7,10 @@ nav_order: 30
 
 Coming soon
 {: .label .label-yellow }
+
+* Async/await makes Node easier to reason with
+* Don't disregard tools that solve Node.js problems - e.g. Next.js
+* Change one thing at a time
+* Format with prettier
+* Lint with eslint
+* Decide on an approach for testing
