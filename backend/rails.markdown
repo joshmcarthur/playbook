@@ -31,9 +31,30 @@ the functionality needs to be refactored.
 
 To provide some basic stats, my primary gem dependencies for a Ruby on Rails project gemfile range between 10 and 60 gems, with a median of about 25. Generally, the older the project is, the more dependencies are included.
 
+### Use templates to maintain consistency
 
-* Use templates to maintain consistency
-* Move nested objects and param wrangling into form objects
+Rails has a really neat ability to use templates when creating a new application. Templates function just like generators, but there's nothing quite like them for getting up to speed correctly.
+
+I have my own [rails-template](http://github.com/joshmcarthur/rails-template). I originally forked this from an [upstream](https://github.com/mattbrictson/rails-template) that was aligned to the tools and processes I commonly use. 
+
+The efficiency gains from using the template when setting up projects professionally led my employer to fork and maintain their own open-source rails-template the changes from which I frequently merge back into my own repository.
+
+Templates provide a log of architecture considerations and decisions, as well as show an evolution of improvement in tools and processes over time. 
+
+Rails' support for templates is also neat, as it allows templates to be re-applied. This means that it is possible to both create new projects, and use it as an upgrade tool for less up-to-date projects.
+
+### Move nested objects and param wrangling into form objects
+
+Creating multiple objects in a single form seems to consistently be an architectural problem that I struggle with in Rails - and in fact any web framework.
+
+Having a single UI create multiple database resources doesn't naturally map well to CRUD operations against tables, but a technique that I find works well for me to overcome this is to use form objects.
+
+Form objects accept params and other context about the request, and perform whatever validation and processing is required to get one or more database objects ready to saved (or even saved, in some circumstances).
+
+I usually place the bulk of the validations into the form object, leaving the models to enforce enum values and database constraints. 
+
+This approach completely decouples the view layer from the database layer, and allows for a much more flexible UI. It is also nice and testable, since the model objects stay quite simple and reusable (since the validations are on the form object), the form object can be unit tested without database writes, and the entire stack can be tested with one or more system integration tests.
+
 * Move object-specific helpers into presenters
 * Move self-contained processes into service objects
 * Write system tests
