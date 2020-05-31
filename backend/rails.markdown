@@ -55,8 +55,29 @@ I usually place the bulk of the validations into the form object, leaving the mo
 
 This approach completely decouples the view layer from the database layer, and allows for a much more flexible UI. It is also nice and testable, since the model objects stay quite simple and reusable (since the validations are on the form object), the form object can be unit tested without database writes, and the entire stack can be tested with one or more system integration tests.
 
-* Move object-specific helpers into presenters
-* Move self-contained processes into service objects
+### Move object-specific helpers into presenters
+
+Another pattern I use a lot is to introduce presenters into applications. Presenters accept an
+object to 'present', and add or override methods as required for the object to be used for presentation - for example in a template.
+
+Helpers can also be a solution for this, but I prefer helpers for global, application-level helpers. Presenters add an additional layer between models and templates, and allow templates to not contain too much logic, while also allowing models to represent the data schema, and nothing more.
+
+There are libraries available for presenters, but Rails'
+[`delegate_missing_to`](https://apidock.com/rails/v5.2.3/Module/delegate_missing_to)
+provides pretty much all the functionality I need. Presenters are also easy to
+test - they just need a view context and the object to present, and the output
+can be tested with assert or Capybara matchers.
+
+### Move self-contained processes into service objects
+
+I need to be careful not to over-use service objects, but they fill a niche between data entities
+as models, and steps of, or entire workflows. 
+
+Generally service objects I create function similarly to a lambda, but with an initialiser. They'll accept arguments that determines what adapters, API clients etc. to use, and respond to `call` to actually perform the action. By sticking to this contract, I have a built-in check to make sure that the service object represents a self-contained operation, and also have a nice hook for stubbing, since I can pass in an actual lambda to mock the result the service object.
+
+Service objects are useful for all sorts of things, but I use them especially to cut down on controller complexity, or handle an interaction with a third-party API or database in a reusable and self-contained way. 
+
+
 * Write system tests
 * Write model tests
 * Write request tests for non-visual interactions
