@@ -77,9 +77,56 @@ Generally service objects I create function similarly to a lambda, but with an i
 
 Service objects are useful for all sorts of things, but I use them especially to cut down on controller complexity, or handle an interaction with a third-party API or database in a reusable and self-contained way. 
 
+### System tests
 
-* Write system tests
-* Write model tests
-* Write request tests for non-visual interactions
-* Automated checks
-* Update constantly
+System tests provide a comprehensive overview of application functionality. They involve driving a 
+browser - usually headless, that may or may not support Javascript - through the application, treating
+it as a black box and interacting using buttons, form inputs, and other UI.
+
+System tests sound great, but they can be slow. Nevertheless, in terms of the value that system tests deliver, they are worth it to me, with a couple of caveats. 
+
+First, the style of testing needs to be different. Rather than declaring set up and tear down to happen around each unit tests, system tests run much faster if they are treated as scenarios. This means setting up once at the beginning of the set of tests, and then running through the steps to meet the test expectations in a single example. Capybara's `scenario` and `feature` test aliases can help with this, to indicate that a test is exercising an expected user flow, rather than a 'unit' of the page.
+
+The second caveat for me is (when the application requirements allow), to try and retain as much functionality working without Javascript as possible. Accessibility and performance considerations aside, it allows a test driver to be used that makes HTTP requests and asserts against the responses, without the overhead of stylesheet or Javascript evaluation. Keeping all of the core scenarios within the non-browser test driver provides a core of system tests that are fast to run and cover the overarching application features, with more specific browser-driven scenarios covering dynamic functionality. The exact blend of non-browser vs browser system tests that I aim to write is determined entirely on the type of application - if it is a dynamic frontend application, my system tests may just cover server-rendered content such as login pages and the application container, with perhaps a single browser test that asserts that the frontend 'application' begins rendering. From there, I would be more likely to look at frontend framework testing tools.
+
+
+### Model tests
+
+I find model tests the most practical test to write - they help me to exercise and visualise the way the
+data entities fit together, and also run quickly, so provide a high-level to make sure everything is functioning correctly.
+
+When I write model tests, I try to avoid hitting the database, instead asserting that valid records are valid, and that methods and associations added to the model that work correctly. I'll always start an empty model test by defining a [factory](https://github.com/thoughtbot/factory_bot) for the model, and then asserting that an instance built using that factory is valid. 
+
+From there, I will add an examples for validations asserting that a change to the instance causes the model to become invalid. I do not test all validations, just those that are either crucial for the model to operate correctly, or those that have complex criteria or validation checks. 
+
+I try to keep model tests isolated from one another, stubbing or mocking inter-object integration points. Usually, these integration points will be [service objects](#move-self-contained-processes-into-service-objects), which is a nice test boundary, since the model can assert that the service object is called with the expected arguments (e.g. the model instance), and the serice object tests then assert that the object behaves correctly given those inputs.
+
+Because of the level of community support available, I will usually use [RSpec](https://rspec.info/) for writing tests. I do however prefer the Minitest/Test::Unit framework when creating tests for my own personal projects. I find that writing plain assertions directly in Ruby code (as opposed to RSpec's DSL) leads to me having a higher comprension of the code under tests and how the tests interact with the code. Writing plain Ruby code also means I can use all the same linting (rubocop) and code navigation (solargraph) tools that I use for application code.
+
+Test::Unit is also the official test tool of Rails, which means that it typically has closer and more up-to-date integrations with the framework. An example of this is support for running tests in parallel. This leads to an appreciable decrease in test suite run time on Rails 6 and above. Support for running tests in parallel is still coming in Rspec, as the RSpec library needs to be modified to handle async result collection.
+
+### Write request tests for non-visual interactions
+
+Along with system and model tests, request specs fill in the final missing gap for me - the ablity to exercise any functionality that does not have a user interaction component, and has code paths that tie service objects, models and other types of objects together to return a result.
+
+Request specs are similar to the now-deprecated controller specs, but operate from a black-box approach. The test interface is effectively an HTTP client, where requests are issued against the application, with assertions against the response.
+
+Request specs provide a valuable test interface - they run more or less as quickly as the request takes to execute, do not require external dependencies or UI like system tests do, but still make assertions against the entire application stack integrated together. 
+
+Request specs are the tool I reach for when testing API responses, error handling, and anything else where a system test cannot get to the code path to execute.
+
+### Use the app directory 
+
+Ruby on Rails favours convention over configuration. One of the understated advantages of this is a really well organised app directory. Just because it starts well organised though doesn't mean it can't stay that way!
+
+Most applications will have some kind of pattern that emerges that justifies a new directory under `app`. This won't be the first thing that comes along, but adding a new directory to `app/` is much better than trying to shoehorn an object into `models`, `helpers` or something like that when it doesn't belong there. 
+
+Some examples of app subdirecotries that I use regularly are `app/validators` (either params-hash or [`ActiveModel::EachValidator`](https://api.rubyonrails.org/v3.2.13/classes/ActiveModel/EachValidator.html) subclasses), `app/presenters` ([presenters](#move-object-specific-helpers-into-presenters)) and `app/services` ([service objects](#move-self-contained-processes-into-service-objects)).
+
+### Update constantly
+
+Ruby on Rails releases major version updates. Usually these don't come with breaking changes from the minor version, but changes get more and more significant the older the release.
+
+Over many years of Rails upgrades ranging from easy to painful, I have learned that it is easiest to keep applications up to date, fixing the minor breaking changes as they go. There is also a rake task that will handle configuration changes - running `rake rails:update` will take care of some of the breaking changes automatically.
+
+If a project does need to be brought up to date, it's best to do it one version at a time, fixing the breakges for each version before moving onto the next. 
