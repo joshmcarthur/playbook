@@ -75,6 +75,16 @@ I have experimented with BDD and TDD, but these partcular processes don't work w
 
 Usually, I will try and get tests in as early as I can, and then use these to help me to develop the rest of my solution. Incorprating tests into an automated continuous tool is also something I do as early as possible. Having CI tell me when I have broken a test is much more motivating for me that remembering to run the tests properly myself!
 
+### Use all the automated checks available
+
+The first thing I look for in any language that I"m using are the types of checks that I can leverage. Automated checks that I can build into my continuous integration processes help me to maintain consistent code style, alert me if I am using outdated packages, and perform a range of code analysis that can identify potentially insecure code, optimisations and more - all depending on the language.
+
+For Ruby, the tools that I regularly use here are:
+
+* Rubocop, for style linting
+* Brakeman, for secuity scanning based on static code analysis
+* Bundle-audit, for identifying outdated packages
+
 *[BDD]: Behaviour-driven development
 *[CI]: Continuous integration (automatically running checks when the source code is changed)
 *[TDD]: Test-driven development

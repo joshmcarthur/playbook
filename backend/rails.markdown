@@ -5,9 +5,6 @@ parent: Backend Dev
 nav_order: 10
 ---
 
-Work in progress
-{: .label .label-blue }
-
 Ruby on Rails is a great development platform for me. My main interest lies in taking a problem, and solving it with working software, quickly. That's exactly what Rails is great at. It is a battle-tested, flexible tool. There's certainly scenarios where it may not be the best tool to use, but it's a great starting point for _most_ cases that don't have specialised requirements.
 
 I've got a few guidelines that I try and consistently follow that have worked for me repeatedly over the last 10 years of me using Ruby on Rails.
