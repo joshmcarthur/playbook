@@ -129,8 +129,22 @@ with the SQL statement getting put together and executed for me.
 
 ### OTP is great - it might not be needed or wanted
 
-<abbr title="Open Telecom Platform">OTP</abbr> is an absolutely fantastic part of Erlang, which Elixir is built on top of and benefits so much from. It abstracts over many of the difficult problems around fault tolerance and concurrency. 
+<abbr title="Open Telecom Platform">OTP</abbr> is an absolutely fantastic part
+of Erlang, which Elixir is built on top of and benefits so much from. It
+abstracts over many of the difficult problems around fault tolerance and
+concurrency. 
 
-While there is a certain value in having an understanding of OTP, I feel that for just Phoenix application development, it can be a distraction. While there is certainly plenty of opportunities to use OTP concepts and APIs within a Phoenix application, this level of knowledge is not required. If it's not _required_ to know to use a framework, then it justifies some pause before throwing it in, since anyone maintaining the feature will also need to have at least some knowledge of OTP. 
+While there is a certain value in having an understanding of OTP, I feel that
+for just Phoenix application development, it can be a distraction. While there
+is certainly plenty of opportunities to use OTP concepts and APIs within a
+Phoenix application, this level of knowledge is not required. If it's not
+_required_ to know to use a framework, then it justifies some pause before
+throwing it in, since anyone maintaining the feature will also need to have at
+least some knowledge of OTP. 
 
-I've personally tried to learn OTP several times, and not been able to reconcile it to typical web application features that I build. Again, I could certainly find excuses to use OTP to build out a feature, and it would probably be very scalable, resilient and stable - however, thanks to the stability of Elixir and Phoenix itself, the same would probably be true had I just built the feature using Pheonix and perhaps a background processing library that abstracted OTP.
+I've personally tried to learn OTP several times, and not been able to reconcile
+it to typical web application features that I build. Again, I could certainly
+find excuses to use OTP to build out a feature, and it would probably be very
+scalable, resilient and stable - however, thanks to the stability of Elixir and
+Phoenix itself, the same would probably be true had I just built the feature
+using Pheonix and perhaps a background processing library that abstracted OTP.

@@ -5,12 +5,13 @@ parent: Backend Dev
 nav_order: 40
 ---
 
-Work in progress
+Work in progress 
 {: .label .label-blue }
 
 * Rate limits are low
 * Doesn't cost anything
-* Integration with **some** Google products are much easier than using another stack
+* Integration with **some** Google products are much easier than using another
+  stack
 * Use spreadsheets as a database!
 * Great for webhooks, scheduled or triggered event handling
 * Store code in Github
