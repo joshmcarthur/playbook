@@ -81,4 +81,4 @@ think that I need to accomplish a single, clear-cut task, and don't think I'll
 need the full scale of a serverless function. I can get started straight away, I
 don't need to worry about SDKs, OAuth and all the other hoops to jump through to
 access Google services, and I can deploy onto Google-quality infrastructure with
-SSL and versioned endpoints - all for free. 
+SSL and versioned endpoints - all for free. If I end up needing to move it to a serverless function, then I can take the ES6 code that I've already written, replace the Google App Script API implementations with whatever the Node.js equilvant is (in most cases, this is the relevant Node.js Google SDK + OAuth/service account JSON), and push to whatever serverless platform I'd prefer.
