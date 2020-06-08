@@ -17,3 +17,4 @@ Work in progress
 * Geospatial
 * Know how to examine the schema
 * Backing up
+* Optimise configuration
