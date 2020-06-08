@@ -7,8 +7,8 @@ nav_order: 50
 
 Serverless functions are a really good tool for simple tasks and APIs. They're a
 next step for me if I'm looking at something that needs to be scalable and
-available (e.g. ruling out [Google App Script]({{ relative_url |
-'/backend/google-script.html' }})). 
+available (e.g. ruling out [Google App Script]({{ 
+'/backend/google-script.html' | relative_url }})). 
 
 In terms of specific platform, at this stage I am not committed to anything in
 particular. I have used Lambda quite a lot, and Google Cloud Functions a little.
