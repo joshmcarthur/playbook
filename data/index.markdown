@@ -66,21 +66,48 @@ slightly different feature set than Postgresql, it offers a stable and
 well-documented API to store and retrieve data from a local database. There's
 also plenty of tooling available on native platforms for migrating, backing up,
 restoring and analysing SQLite databases. The specific SQLite features I
-regularly use are covered in the ['SQLite' section]({{'data/sqlite.html' | relative_url }}).
+regularly use are covered in the ['SQLite' section]({{'data/sqlite.html' |
+relative_url }}).
 
-Regardless of the database engine I'm using, there are a few SQL features and techniques that I consistently use:
+Regardless of the database engine I'm using, there are a few SQL features and
+techniques that I consistently use:
 
 ### Indexes
 
-Indexing data has both a technical and non-technical benefit. From a technical point of view, indexing allows the database engine to optimise the data that is being stored in a way that is much faster to look up a particular way. An example of this is the primary key index that exists on a table's primary key. Because the database can anticipate that a record is likely to be looked up by it's primary key, it can arrange the data in a way that it can either jump straight to the record it's after, or to a very small set of likely results. 
+Indexing data has both a technical and non-technical benefit. From a technical
+point of view, indexing allows the database engine to optimise the data that is
+being stored in a way that is much faster to look up a particular way. An
+example of this is the primary key index that exists on a table's primary key.
+Because the database can anticipate that a record is likely to be looked up by
+it's primary key, it can arrange the data in a way that it can either jump
+straight to the record it's after, or to a very small set of likely results. 
 
-From a non-technical point of view, indexes both provide an opportunity to consider, and demonstrate that the developer has considered, the access patterns for a particular table. The presence of indexes on a table provide hints to schema readers about how a table is supposed to be used. Conversely, the lack of indexes can show that a table or group or tables was possibly put together in a hurry without understanding how the data would be looked up, and that there are some potential quick wins by adding indexes to these tables.
+From a non-technical point of view, indexes both provide an opportunity to
+consider, and demonstrate that the developer has considered, the access patterns
+for a particular table. The presence of indexes on a table provide hints to
+schema readers about how a table is supposed to be used. Conversely, the lack of
+indexes can show that a table or group or tables was possibly put together in a
+hurry without understanding how the data would be looked up, and that there are
+some potential quick wins by adding indexes to these tables.
 
-The negative of adding indexes is that writes are slowed down by the database needing to update each index when a relevant row of an indexed table is written to (e.g. INSERT or UPDATE). Therefore, while too few indexes can indicate a lack of understanding of the data structure, too many indexes can indicate exactly the same thing - perhaps a scattergun approach intended to try and solve a problem without understanding the underlying cause - potentially having a net negative impact on database performance.
+The negative of adding indexes is that writes are slowed down by the database
+needing to update each index when a relevant row of an indexed table is written
+to (e.g. INSERT or UPDATE). Therefore, while too few indexes can indicate a lack
+of understanding of the data structure, too many indexes can indicate exactly
+the same thing - perhaps a scattergun approach intended to try and solve a
+problem without understanding the underlying cause - potentially having a net
+negative impact on database performance.
 
-The guideline that I follow when indexing is that I should be able to justify each index - with a comment, if it's not immediately obvious from the index name (although if it's not obvious from the index name I am more likely to rename the index than to add a comment). If I am adding an index just for the sake of having it indexed, I'm not necessarily gaining anything, and may be introducing a harmful pattern that others may inadvertently follow themselves.
+The guideline that I follow when indexing is that I should be able to justify
+each index - with a comment, if it's not immediately obvious from the index name
+(although if it's not obvious from the index name I am more likely to rename the
+index than to add a comment). If I am adding an index just for the sake of
+having it indexed, I'm not necessarily gaining anything, and may be introducing
+a harmful pattern that others may inadvertently follow themselves.
 
-> There are a lot of other tricks to indexes, but they tend to be more specific to the database engine. I go more into specific index types in the ['Postgres' section]({{ '/data/postgresql.html' | relative_url }}).
+> There are a lot of other tricks to indexes, but they tend to be more specific
+> to the database engine. I go more into specific index types in the ['Postgres'
+> section]({{ '/data/postgresql.html' | relative_url }}).
 
 ### Constraints
 
