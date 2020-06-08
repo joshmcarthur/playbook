@@ -111,6 +111,67 @@ a harmful pattern that others may inadvertently follow themselves.
 
 ### Constraints
 
-### Consistent syntax
+Constraints are rules or checks that can be put into place in the database. In
+my experience, constraints tend to be underused or ignored entirely in web
+application frameworks where data rules and validations can be implemented in
+code instead of data, which I think is unfortunate, as constraints offer a
+reliable method of ensuring data integrity. 
+
+Common constraints are `NOT NULL`, `UNIQUE` and foreign keys, which are
+typically attached during column definition and schema design. Frameworks such
+as Rails often support these, since these types of constraint work regardless of
+the database engine.
+
+Depending on the engine though, much more complex checks are possible. The issue
+that prevents their use more widely for me is that Rails uses a Ruby format to
+represent the schema by default. This means that only database primitives that
+the ActiveRecord library is aware of can be serialized and deserialized into
+Ruby code when snapshottting the database. It is possible to change the schema
+format to SQL, but this leads to a file that is much harder to work on amongst a
+development team since even minor database differences can cause git conflicts. 
+
+Nevertheless, even if constraints and checks cannot be used _widely_ in a web
+application, they are a tool I constantly keep in mind. Constraints I have used
+before include:
+
+* Checking a value is included in a list of values (enum)
+* Checking a value based on the presence of another value
+
+### Consistent formatting
+
+ANSI SQL is pretty flexible when it comes to formatting, and even syntax to a
+certain extent. Something I always do though, is stick to some basic formatting
+rules:
+
+* SQL keywords in UPPERCASE (`SELECT`, `INSERT`, `INNER JOIN`)
+* A short line length with plenty of line breaks.
+* Break and indent at logic points (e.g. on a select, update or insert statement
+  component - `WHERE`, `ORDER BY`, etc)
+* Double quote relation and column names
+* Column names underscored, lowercase
+* Plural table names
+* Singular column names
+
+These rules are pretty common across the community, but they are also not
+enforced as part of either the database client, libraries, or the SQL standard
+itself, so it's important that I hold myself to these to ensure database queries
+that I create are clear and easy to write and maintain. Sticking to a consistent
+format also helps to communicate the intent and main structure of the query.
 
 ### Schema design
+
+Ad-hoc schema design is tempting in the guise of moving quickly, but I've always
+found that planning the database schema in advance pays off. It allows a chance
+to get a feel for potentially problematic parts of the model and refactor these
+in terms of the database relationship structure before any code actually gets
+written. Moving the schema design to be a planning process is also a great
+communication and learning opportunity for other programmers, product owners,
+and other stakeholders. For particularly focused or complex workflows, database
+interactions can be simulated via pen and paper in schema design to see how
+pieces of data can fit together.
+
+Schema design won't be correct right off the bat, and changes and corrections
+can always be expected. By starting with a documented, or at least brainstormed,
+database schema, these changes can be diffed and assessed against the previous
+versions. By having previous versions, changes can be _proposed_ and _reviewed_
+before the changes are actually made in code. 
