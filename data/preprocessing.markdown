@@ -5,9 +5,6 @@ parent: "Databases & data"
 nav_order: 10
 ---
 
-Work in progress
-{: .label .label-blue }
-
 Data comes from a range of sources. I have found that the preprocessing of data
 can be an enormously beneficial step to getting a project off the ground well.
 When the alternative is manual entry, any kind of efficiency gain that can be
@@ -97,5 +94,34 @@ file. I've written a [blog
 post](https://www.joshmcarthur.com/til/2018/06/19/extracting-xml-data-with-curl-and-xmllint.html)
 that is probably the most succint example I have of extracting data from XML.
 
-* head, tail and grep to examine text data
-* awk and print to transform data 
+Finally, there are tools that work well regardless of the data format. These
+tools are particularly useful to figure out, since they can be used for all
+sorts of things. Not just processing data, but any kind of text extraction or
+transformation, such as viewing or parsing log files, large codebases or
+basically any other application. This is _not_ my area of specialty, but the
+tools I use pretty much every day for this sort of thing are:
+
+* **`head`**: Only grab the first `_n_` lines of the input (a file or a stream).
+  This tool is surprisingly handy for grabbing the first few rows from a data
+  file (e.g. to see if a CSV file has headers or not, or to examine the first 10
+  lines of a log file).
+* **`tail`**: Unsurprisingly, more or less the inverse of `head`, except that
+  the `-f` command can be specified to _follow_ the output. I usually use this
+  to follow a log file so that I can see the output as it is appended to the
+  file.
+* **`grep`**: This really deserves a guide all of it's own, but the [TLDR
+  page](https://tldr.ostera.io/grep) gives an overview. `grep` can match a
+  stream or file for patterns. This is massively powerful, since the input can
+  be filtered for very specific text, and can pretty much handle any size data. 
+* **`awk`**: An honorable mention for this one since I still can only use it
+  with extensive help from StackOverflow, but `awk` is great for taking output
+  from a filtering command like `grep` and splitting, merging and reformatting
+  parts of the matched text into the shape it needs to be in. In a similar way
+  to `grep`, `awk` requires a learning curve, but is a powerful and flexible
+  tool given some learning investment.
+
+Some of the tools I've covered here seem tangentially related to databases, but
+they are tools that I use every day to understand, transform, break down and get
+data loaded into a database from all kinds of sources. Understanding these tools
+helps me to think about the entire data processing pipeline, right from
+collection & collation through to rendering data out in an end-user application.
