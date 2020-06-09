@@ -5,9 +5,6 @@ title: "Databases & data"
 nav_order: 30
 ---
 
-Work in progress
-{: .label .label-blue }
-
 Managing data seems to be one of the things I find myself doing more and more
 of. I suspect there is a relationship here between my experiences on personal
 and professional projects, as I find more specialised tools and techniques for
