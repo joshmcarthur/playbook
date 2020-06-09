@@ -67,7 +67,7 @@ layout: table_wrappers
           <div id="main-content" class="page-content" role="main">
             {% if page.show_title != false %}<h1>{{page.title}}</h1>{% endif %}
             {% if site.heading_anchors != false %}
-              {% include vendor/anchor_headings.html html=content beforeHeading="true" anchorBody="<svg viewBox=\"0 0 16 16\" aria-hidden=\"true\"><use xlink:href=\"#link\"></use></svg>" anchorClass="anchor-heading" %}
+              {% include vendor/anchor_headings.html html=content beforeHeading="true" anchorTitle="%heading%" anchorBody="<svg viewBox=\"0 0 16 16\" aria-hidden=\"true\"><use xlink:href=\"#link\"></use></svg>" anchorClass="anchor-heading" %}
             {% else %}
               {{ content }}
             {% endif %}
