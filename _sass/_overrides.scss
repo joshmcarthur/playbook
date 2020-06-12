@@ -34,6 +34,17 @@ blockquote {
   & p:last-child {
     margin-bottom: 0;
   }
+
+  a:not([class]) {
+    color: $body-text-color;
+    font-weight: 500;
+    text-decoration-color: $body-text-color;
+    background-image: none;
+
+    &:hover {
+      background-image: linear-gradient($body-text-color 0%, $body-text-color 100%);
+    }
+  }
 }
 
 abbr {
