@@ -268,12 +268,107 @@ supported, deserializing to an `[x, y]` array. Keep in mind that X, Y order is
 longitude, latitude, not the latitude, longitude order you might be accustomed
 to.
 
+### Indexing
+
+In a similar way to views, indexes are supported by all the major relational
+database engines. Indexes are a really powerful tool to both understand the
+shape of data, and how it is accessed and used. I've got a pretty good general
+outline to how I approach indexes across database engines in [the main data
+section]({{ '/data/#indexes' | relative_url }}). This section specifically
+covers indexing features that I believe are unique to Postgresql that I frequently use.
+
+#### Partial indexes
+
+The ability to index a subset of rows in a table is super useful. I use this
+most often to add a unique index on user email where the user is not archived,
+but it can be useful for all sorts of things - typically where there's a natural
+condition that should apply to a central index. In ActiveRecord, this usually
+means a default scope or frequently applied scope that would normally exclude
+the rows that do not need to be indexed. Keeping indexes small is a key part of
+letting Postgres work efficiently.
+
+To create a partial index, a condition can just be passed to the `CREATE INDEX`
+statement as a `WHERE` clause. 
+
+#### Ordered indexes
+
+The index creation statement can also specify an order, so long as the index is
+using the (default) btree (binary tree) index implementation. Specifying an
+order with an index can speed up the specific case where rows are consistently
+fetched with a particular order that is not ascending order with nulls last (as
+this is the default index order).
+
+A particular case where an ordered index can provide a speed boost is when using
+an order in conjunction with `LIMIT` to fetch the first _n_ rows. In this case,
+Postgres would normally need to scan the entire result to order the results
+before taking the first _n_ rows - however, with an ordered index, the index can
+be used directly, with no sequential scan required of the underlying relation.
+
+> `NULLS FIRST` and `NULLS LAST` is a Postgres-specific sorting syntax. Other
+> database engines support this functionality, but with a different syntax. It
+> is used to indicate whether rows with a null value should be shown _before_ or
+> _after_ the ordered results. For example, this can be used to show all posts
+> by their category in ascending order - `NULLS FIRST` would show all the posts
+> that do not have a category first, while `NULLS LAST` would them last.
+
+#### JSONB indexes
+
+JSONB indexes support indexing rows by a value at a given JSONB path expression.
+This is advantageous for tables that store JSON with a known structure, where it
+is anticipated that a query will need to quickly look up rows based on the key. 
+
+I don't use JSONB indexes terribly often, but wanted to mention them here since
+they are a type of index that can only be used with JSONB columns, not hstore or
+JSON columns. Speaking very generally, if a JSONB index is looking like it's
+needed, I'd be looking at that data structure to see if it's appropriate to be
+storing data that is that structured in a schemaless column, since it would be
+difficult to enforce consistency and constraints upon the column data to ensure
+the index would actually be used.
+
+#### Full-text indexes
+
+It's worth pointing out that the Postgres docs have [a full section on text
+searching](https://www.postgresql.org/docs/current/textsearch.html), so I'm
+going to avoid going into deep detail here.
+
+The main thing I keep in mind is that full text searching _is_ something that
+Postgres supports. It doesn't support the same depth of features that dedicated
+full-text search platform (e.g. Elasticsearch, Solr) does, but so far in my time
+using Postgres full-text indexes, I've never run into a complete dead end.
+Additionally, the reduced maintenance burden from not introducing another system
+to keep up and running, _especially_ one that is also a datastore cannot be
+ignored.
+
+Essentially, full-text indexes can be set up on tables using a GIN index with
+the `to_tsvector` function - as the Postgres docs specify:
+
+`CREATE INDEX pgweb_idx ON pgweb USING GIN (to_tsvector('english', title || ' ' || body));`
+
+
+> Postgres' full-text functions like `to_tsvector` are just regular functions.
+> They can be used in any particular part of a query or other statement, however
+> when full-text searching, adding a dedicated index is quite important.
+
+There are all sorts of handy operators and functions available in Postgres,
+including tricks like using [generated
+columns](https://www.postgresql.org/docs/current/ddl-generated-columns.html) to
+collate full text searchable content. One function worth keeping in mind here is
+`websearch_to_tsquery`, which will take a search with Google-type operators, and
+transform it into a full text search (allowing text operators like "AND" "OR"
+"&&", etc.).
+
+Generally, I've found that there is sometimes a call for a full-text search
+engine like Elasticsearch, but not as often as people think. Pushing Postgres as
+far as it can go makes sense - a relational database is needed in any case, and
+while you can keep fulltext search in PG, the existing tooling for scaling,
+backups, monitoring and performance optimisation can be leveraged. 
+
+Full-text search functionality is part of Postgres code - it is not an extension
+like Postgis. This means that full-text search functions can be used within any
+recent Postgres database.
+
 ---
 
-* The capabilities of indexes
-  * Partial indexes
-  * Full-text indexes
-  * jsonb indexes
 * Know how to examine the schema
 * Backing up
 * Optimise configuration
