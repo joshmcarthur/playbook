@@ -5,9 +5,6 @@ parent: "Databases & data"
 nav_order: 20
 ---
 
-Work in progress
-{: .label .label-blue }
-
 PostgreSQL is the default datastore for me. I find that it's capable,
 performant, stable, and there's a bunch of applications and frameworks that
 integrate really nicely with it. It has fewer weird gotchas than MySQL does, and
@@ -367,8 +364,88 @@ Full-text search functionality is part of Postgres code - it is not an extension
 like Postgis. This means that full-text search functions can be used within any
 recent Postgres database.
 
+### Know how to examine the schema
+
+This is mostly just about how to jump into `psql` and check out a database. There are plenty of visual tools for this which can be used as well. I tend to just stick to `psql` - it's consistent and can be used anywhere, including on a server (without needing to drill an SSH tunnel for a UI tool to connect through).
+
+The commands I use all the time are:
+
+* `\dt` - Lists all of the tables in a database
+* `\d+` - Shows the structure of a table, including indexes and foreign keys
+* `\dm` - Shows materialized views
+* `\o [filename]` - Outputs query results from this point on to `[filename]`,
+
+There are heaps of other utilities here, just run `\?` to get a list of them.
+
+The point of these commands is to be able to use `psql` to see details of the
+schema. This is particularly useful with a database that I'm not familiar with,
+since `\dt` and `\d+` lets me figure out the main tables, their structure, and
+the relationships that exist between tables.
+
+### Backing up
+
+Postgres will normally be the canonical source of the application's data. Not
+something that should be lost! For databases that can afford some table or
+row-level locking and need a simple solution, `pg_dump` can't be beat. I use
+`-Fc` (custom format). This is a format that is specific to Postgres, but backs
+up quickly to a single compressed file that is restored with `pg_restore`.
+Because it's a custom format, it has a few more options when restoring, such as
+the ability to skip particular parts of the import. I've also experimented with
+setting the `--jobs` option, but haven't seen any appreciable speed increse with
+the size databases I tend to be backing up.
+
+For larger databases, replication is usually the way to go. Postgres supports
+replication with WAL (write-ahead-logging), that is pretty good and relatively
+easy to set up - although this is the sort of point where I'll tend to defer to
+the DB hosting platform. On RDS this means a read replica, on Heroku a DB
+follower. Replication is definitely able to be set up, but it's another
+important piece of infrastructure that I'd rather not manage myself.
+
+### Optimise configuration
+
+Postgres is incredibly customisable, and it seems to be a surprisingly neglected
+part of performance tuning. Since Postgres is (a) quite an old open-source
+project, and (b) agnostic about _where_ it gets deployed, the default
+configuration for Postgres tends to be quite conservative. 
+
+If Postgres is being pushed _at all_, performance configurations should almost
+always be adjusted - it's highly likely otherwise that it won't matter how much
+memory or CPU the hardware provides, Postgres won't use it. 
+
+The most useful setting to change initially is `maintenance_work_mem`. This
+setting can be expected to speed up indexing, materialized view refreshes, and
+vacuuming. This setting allows Postgres to use more memory when performing
+maintenance tasks. More memory means that more data can be loaded at once before
+PG needs to go back and load more data off the (slow) disk.
+
+Next, `work_mem` can be tuned to make the most of memory available on the
+hardware. `work_mem` functions similarly to `maintenance_work_mem`, but relates
+to primary query execution, rather than maintenance tasks. Work memory can be
+expected to help performance of queries that normally need to load large amounts
+of data to perform a query, such as a non-indexed order operation on a large
+table (as this will require a sequential scan of the entire table to sort the
+rows). 
+
+Autovacuuming is also something that can normally be dialled back, or even
+disabled and run manually if the database is only ever written to in batches
+(for example, if data is imported into the database in a mass load and then only
+ever read). Autovacuuming runs by default based on the
+`autovacuum_vacuum_threshold` and `autovacuum_vacuum_scale_factor` settings,
+which are in turn based on the volume of writes to the database. Dialling back
+autovacuuming basically trades off table consistency for additional performance
+that can go towards fulfilling queries.  
+
+Regardless of the configuration of autovacuuming, running a manual vacuum with
+`VACUUM ANALYZE` every now and then tends to clean out cruft, rebuild indexes,
+and lead to better performance. This does need to be done sometime when the
+database isn't under load though, so isn't always practical - but it's often a
+good quick fix!
+
 ---
 
-* Know how to examine the schema
-* Backing up
-* Optimise configuration
+This section has been long. Thanks for sticking with it. It is long because of
+the sheer volume of useful stuff contained in the PostgreSQL database. Learning
+even a fraction of the functionality is well worth it - this functionality can
+be used anywhere where Postgres is supported, and can often displace the need to
+build infrastructure or equivalent functions into the application codebase
+entirely.
