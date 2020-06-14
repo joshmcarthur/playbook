@@ -10,6 +10,8 @@ Coming soon
 * Maybe still use a preprocessor?
 * Assess frontend style libraries extremely critically
 * Use React when you have a piece of state to manage
+* React contexts are good
+* Redux is complicated
 * You don't need jQuery
 * Static site deployment
 * Lighthouse for audits
