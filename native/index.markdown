@@ -37,7 +37,7 @@ Again, this advice is based on _my experience_, and might not be true for everyt
 
 Fragments introduce a whole other state lifecycle to keep an eye on. Rather than introduce this complexity for everything, I stick to using fragments for managing a discrete piece of the application UI that would pollute the activity it's in if it was built straight in. A good example of doing this would be a video player, where it has UI (the video surface and controls), and a bunch of underlying logic about playing/pausing/skipping forwards and backwards.
 
-#### Use <abbr title="Plain Ol' Java Objects">POJOs</abbr> whenever possible
+#### Use Plain Ol' Java Objects (POJO) whenever possible
 
 This is definitely a pattern that exists in the Java ecosystem, but I had the value proved to me in the Ruby world first, and brought this into the Android development context. Keeping any kind of isolatable code in it's own object and passing external dependencies into the class constructor leads to a nice generic class that can easily be reasoned with, refactored, and tested.
 
