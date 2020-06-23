@@ -163,8 +163,40 @@ edge cases that can't be reached by unit tests.
 
 #### Store & Distribution
 
-Coming soon
-{: .label .label-yellow }
+Generally, getting an app published in Android is a bit simpler than iOS. My
+playbook here isn't super comprehensive, as it mostly just works. A release
+build is what should be uploaded to the Play Store - a release build can be
+generated from within Android Studio, or via `gradle` in a terminal. Either APK
+or AAB (Android App Bundle) can be produced - AAB is the newer format and is
+probably the way to go for Play Store distribution these days. If you are
+distributing builds elsewhere (internal or an alternative store such as
+[f-droid](https://f-droid.org/)), publishing APK files might offer slightly more
+distribution options.
+
+Part of producing a release build requires either generating or selecting a
+keystore and key within the keystore. I keep keystores in 1Password so that they
+are backed up. They're easy to drop onto a filesystem and forget about, so make
+sure it gets put somewhere safe right away. I also generate a new keystore for
+each application I distribute - this makes it easier to transfer management to
+somebody else, or otherwise allow others to help with distribution, without
+affecting any other applications I am also publishing.
+
+These days, the Google Play store can manage signing applications for you. You
+need to opt-in to this, and if you are distributing something that is
+open-source or otherwise in the public domain, you should probably keep Google
+at arms length here. In any other situation though, having Google Play manage
+signing for you makes this a lot easier. The key is stored and used by Google,
+so you don't need to manage this yourself. Additionally, anyone else with access
+to the project in the Google Play Developer Console can sign the application
+without having to distribute the keystore. 
+
+Before an application can be published, quite a lot of metadata needs to be
+created - application icons, marketing images (screenshots and feature image),
+descriptions, privacy policies and more. I recommend keeping copies of this
+metadata in the same repository as your application. Keeping this information in
+a directory compatible with
+[fastlane](https://docs.fastlane.tools/actions/supply/) also means that you can
+automate this in the future if you wish.
 
 ### iOS
 
