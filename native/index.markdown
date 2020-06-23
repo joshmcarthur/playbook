@@ -30,9 +30,9 @@ If Cordova _must_ be used, you might consider something like
 and tooling around keeping the mixture of SDKs, NPM packages and magical shell
 scripts up to date that are required to properly maintain such an application.
 
-Since Android Studio was released (replacing, or, may I say, _eclipsing_ Eclipse
-+ Android plugin), I use native Android dev much more. I have a few guidelines
-that I stick to with Android development:
+Since Android Studio was released (replacing, or, may I say, _eclipsing_ 
+Eclipse + Android plugin), I use native Android dev much more. 
+I have a few guidelines that I stick to with Android development:
 
 #### Java/Kotlin?
 
