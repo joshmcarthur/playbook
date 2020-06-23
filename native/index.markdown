@@ -47,12 +47,48 @@ My experience with this on Android is low enough that I just have a general conv
 
 For cross-activity async communciation and processing, I've had a good experience with [EventBus](https://github.com/greenrobot/EventBus). This just allows async message passing between anything that can access a `Context`, so it's quite nice for accessing different functionality from different levels of an application - a little like a React context.
 
-For background processing (e.g. a scenario where an activity is not assumed to be running), an [`IntentService`](https://developer.android.com/reference/android/app/IntentService) as worked well for me. If I need to trigger this based on events from the OS or other activities, I'll combine this with a [`BroadcastReceiver`](https://developer.android.com/reference/android/content/BroadcastReceiver). 
 
 #### Testing
 
-Coming soon
-{: .label .label-yellow }
+Testing on Android is something I've always been really impressed with compared
+to my experiences on iOS. There were several popular community libraries for
+Android testing, and the Android community has made real efforts to get behind a
+few good tools recently, backing these up with integration into tooling and
+first-class documentation.
+
+For Android testing these days, I would initially reach for unit tests with
+JUnit. These types of tests use a stubbed version of the Android API, meaning
+that nothing can be done that actually requires hardware - however for testing
+POJOs and classes or activities that can have mocked or stubbed dependencies
+injected, the ability to run these tests quickly makes them the most valuable
+for developer quality of life.
+
+One of the disadvantages of unit tests (common to all languages and frameworks
+by the way, not just Android), is that they are limited to testing how specific
+code paths interact, and don't take into account variability around the
+different states of storage, memory, power, and other factors that can influence
+how an implemented feature functions.
+
+For these testing behaviour at this level, Android now has really good
+documentation and support for
+[Espresso](https://developer.android.com/training/testing/espresso). Espresso is
+to Android as Capybara is to Ruby or Cypress.io is to Javascript. Espresso can
+start an Activity and interact with an app on-device. These types of test are
+slow to build and run - they basically install an APK on an emulator or device
+attached over USB or Wifi, and then send events to the application simulating
+user input. The advantage of having these tests is that they can be run on
+different device form factors (phone, tablet, TV etc), different Android
+versions, and test actual user input and interaction rather than assuming the
+code path being executed.
+
+As with testing for web, getting the mixture of tests right is the tricky bit.
+There is arguably a bit less variability to worry about with native apps, so
+writing a couple of smoke tests that just exercise the core workflows of a
+simple application, with unit tests covering common code paths and edge cases,
+normally hits a good balance of functionality coverage and test runtime. More
+specific UI tests can always be added later to cover more specific scenarios or
+edge cases that can't be reached by unit tests.
+
 
 #### Store & Distribution
 
