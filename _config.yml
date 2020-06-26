@@ -31,7 +31,7 @@ baseurl: "/playbook" # the subpath of your site, e.g. /blog
 url: "https://www.joshmcarthur.com" # the base hostname & protocol for your site, e.g. http://example.com
 
 # Build settings
-remote_theme: pmarsceill/just-the-docs@v0.2.9
+remote_theme: pmarsceill/just-the-docs@v0.2.8
 
 sass:
   style: compressed
