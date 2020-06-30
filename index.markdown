@@ -37,11 +37,11 @@ include the page title and content license, changelog, and issue links.
 The site is hosted on [Github Pages](https://pages.github.com/) and served via
 [Cloudflare](https://cloudflare.com/).
 
-The [Roboto](https://github.com/google/roboto/) font is used for pricipal
-typography. Stylesheets are compiled with [SASS](https://sass-lang.com/).
+Stylesheets are compiled with [SASS](https://sass-lang.com/). The [Roboto](https://github.com/google/roboto/) font was used for pricipal
+typography, but has since been replaced by use of system sans-serif fonts. This decreases time to first paint and overall page load size but means that typography can look slightly different in different environments.
 
-This guide is heavily inspired by [Thoughtbot's
-Playbook](https://thoughtbot.com/playbook), but the content is my own.
+The idea behind this guide is heavily inspired by [Thoughtbot's
+Playbook](https://thoughtbot.com/playbook), but the content and structure is my own.
 
 Site content is licensed under [Creative Common's Attribution-ShareAlike 4.0
 International License](https://creativecommons.org/licenses/by-sa/4.0/).  This
